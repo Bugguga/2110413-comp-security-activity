@@ -9,9 +9,7 @@ substitutions = {
 }
 
 def transform(word):
-   
     lis = [0] * len(word)
-    words.append(word)
     combi(len(word), lis , 0 , word)
     
 
