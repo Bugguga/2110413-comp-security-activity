@@ -1,7 +1,7 @@
 import hashlib
 
 lis = []
-words = []
+words = set()
 substitutions = {
     'o': '0',
     'l': '1',

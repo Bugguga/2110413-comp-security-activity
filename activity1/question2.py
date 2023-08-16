@@ -1,7 +1,8 @@
 import hashlib
+import csv
 
 lis = []
-words = []
+words = set()
 dic = dict()
 
 substitutions = {
@@ -21,8 +22,9 @@ def combi(n, sol, leng, w):
         sol[leng] = 0
         combi(n, sol, leng+1, w)
 
-        sol[leng] = 1
-        combi(n, sol, leng+1, w)
+        if (w[leng].isalpha()):
+            sol[leng] = 1
+            combi(n, sol, leng+1, w)
 
         if (w[leng] in substitutions):
             sol[leng] = 2
@@ -30,11 +32,11 @@ def combi(n, sol, leng, w):
     else:
         print("รอแปปนึงไอเวร")
         for i in range(len(sol)):
-            if (sol[i] == 1):
+            if (sol[i] == 1 and w[i].isalpha()):
                 w = w[:i] + w[i].upper() + w[i+1:]
             elif sol[i] == 2:
                 w = w[:i] + substitutions[w[i]] + w[i+1:]
-        words.append(w)
+        words.add(w)
 
 
 with open('10k-most-common.txt', 'r') as file:
@@ -43,6 +45,16 @@ with open('10k-most-common.txt', 'r') as file:
 for word in dictionary_words:
     transform(word)
 
-
+data = []
 for word in words:
-    dic[word] = hashlib.sha1((word).encode('utf-8')).hexdigest()
+    data.append((word, hashlib.sha1((word).encode('utf-8')).hexdigest()))
+
+
+csv_file = "rainbow.csv"
+
+with open(csv_file, mode="w", newline="") as file:
+    writer = csv.writer(file)
+    writer.writerow(["substituded", "hash"])
+    writer.writerows(data)
+
+print("CSV file created and data added.")
