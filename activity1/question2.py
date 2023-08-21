@@ -1,5 +1,8 @@
 import hashlib
 import csv
+import time
+
+start = time.time()
 
 lis = []
 words = set()
@@ -30,7 +33,6 @@ def combi(n, sol, leng, w):
             sol[leng] = 2
             combi(n, sol, leng+1, w)
     else:
-        print("รอแปปนึงไอเวร")
         for i in range(len(sol)):
             if (sol[i] == 1 and w[i].isalpha()):
                 w = w[:i] + w[i].upper() + w[i+1:]
@@ -57,4 +59,8 @@ with open(csv_file, mode="w", newline="") as file:
     writer.writerow(["substituded", "hash"])
     writer.writerows(data)
 
+end = time.time()
+
+elapse = end - start
+print(f"Elapsed time: {elapse:.6f} seconds")
 print("CSV file created and data added.")
